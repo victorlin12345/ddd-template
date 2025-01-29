@@ -1,6 +1,12 @@
 package application
 
-func CancelOrder() {
+import (
+	"context"
+
+	"github.com/victorlin12345/ddd-template/internal/dto"
+)
+
+func CancelOrder(ctx context.Context, params dto.CancelOrderParams) (*dto.CancelOrderResponse, error) {
 
 	// req
 	// auth
@@ -21,4 +27,5 @@ func CancelOrder() {
 	// service.OrderService.CancelOrder()
 	// service.OrderPaymentService.DoSomething()
 	// resp
+	return &dto.CancelOrderResponse{}, nil
 }
