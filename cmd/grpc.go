@@ -4,11 +4,10 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 	"github.com/victorlin12345/ddd-template/internal/infrastructure"
 	grpcserver "github.com/victorlin12345/ddd-template/internal/infrastructure/grpc_server"
+	"github.com/victorlin12345/ddd-template/internal/presentation"
 	"go.uber.org/fx"
 )
 
@@ -23,11 +22,10 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("grpc called")
-
 		fx.New(
 			infrastructure.Module,
-			fx.Invoke(func(lc fx.Lifecycle, server *grpcserver.GrpcServer) {
+			presentation.Module,
+			fx.Invoke(func(lc fx.Lifecycle, server *grpcserver.GrpcServer, controller *presentation.HelloController) {
 				// lc.Append(fx.Hook{OnStart: db.Start, OnStop: db.Stop})
 				lc.Append(fx.Hook{OnStart: server.Start, OnStop: server.Stop})
 			}),

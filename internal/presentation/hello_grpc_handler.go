@@ -2,16 +2,17 @@ package presentation
 
 import (
 	"context"
+	"fmt"
 
+	grpcserver "github.com/victorlin12345/ddd-template/internal/infrastructure/grpc_server"
 	hellopb "github.com/victorlin12345/ddd-template/internal/pkg/gen"
-	"google.golang.org/grpc"
 )
 
 type HelloController struct {
 	hellopb.UnimplementedMyServiceServer
 }
 
-func NewHelloController(server *grpc.Server) hellopb.MyServiceServer {
+func NewHelloController(server *grpcserver.GrpcServer) *HelloController {
 	ctr := &HelloController{}
 	hellopb.RegisterMyServiceServer(server, ctr)
 
@@ -19,5 +20,8 @@ func NewHelloController(server *grpc.Server) hellopb.MyServiceServer {
 }
 
 func (c *HelloController) SayHello(context.Context, *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
-	return &hellopb.HelloResponse{}, nil
+	fmt.Println("Hello")
+	return &hellopb.HelloResponse{
+		Message: "Hello",
+	}, nil
 }

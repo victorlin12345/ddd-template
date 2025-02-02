@@ -24,6 +24,7 @@ func NewGrpcServer(lc fx.Lifecycle) *GrpcServer {
 }
 
 func (srv *GrpcServer) Start(ctx context.Context) error {
+
 	// 監聽指定的端口
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
