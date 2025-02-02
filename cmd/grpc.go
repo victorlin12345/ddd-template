@@ -5,9 +5,12 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/victorlin12345/ddd-template/internal/application"
 	"github.com/victorlin12345/ddd-template/internal/infrastructure"
 	grpcserver "github.com/victorlin12345/ddd-template/internal/infrastructure/grpc_server"
+	"github.com/victorlin12345/ddd-template/internal/infrastructure/mongo"
 	"github.com/victorlin12345/ddd-template/internal/presentation"
+	"github.com/victorlin12345/ddd-template/internal/repository"
 	"go.uber.org/fx"
 )
 
@@ -25,8 +28,14 @@ to quickly create a Cobra application.`,
 		fx.New(
 			infrastructure.Module,
 			presentation.Module,
-			fx.Invoke(func(lc fx.Lifecycle, server *grpcserver.GrpcServer, controller *presentation.HelloController) {
-				// lc.Append(fx.Hook{OnStart: db.Start, OnStop: db.Stop})
+			application.Module,
+			repository.Module,
+			fx.Invoke(func(lc fx.Lifecycle,
+				server *grpcserver.GrpcServer,
+				grpcRouter *presentation.GrpcRouter,
+				mongoClient *mongo.MongoClient,
+			) {
+				lc.Append(fx.Hook{OnStart: mongoClient.Start, OnStop: mongoClient.Stop})
 				lc.Append(fx.Hook{OnStart: server.Start, OnStop: server.Stop})
 			}),
 		).Run()

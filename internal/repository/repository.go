@@ -1,12 +1,8 @@
-package repo
+package repository
 
-// var Module = fx.Module("repostioty",
-// 	fx.Provide(NewGrpcServer),
-// )
+import "go.uber.org/fx"
 
-// func Provide() []interface{} {
-// 	return []interface{}{
-// 		// NewGrpcServer,
-// 		// NewHelloController,
-// 	}
-// }
+var Module = fx.Module("repostioty",
+	fx.Provide(NewOrderRepo),
+	fx.Provide(NewPaymentRepo),
+)

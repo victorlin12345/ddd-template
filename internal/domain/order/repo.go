@@ -1,6 +1,8 @@
 package order
 
+import "context"
+
 type Repository interface {
-	GetByID(id int64) (*Order, error)
-	Save(payment *Order) error
+	GetByID(ctx context.Context, id int64) (*Order, error)
+	Save(ctx context.Context, order *Order) error
 }

@@ -9,6 +9,8 @@ import (
 type OrderPaymentService struct {
 }
 
-func (srv *OrderPaymentService) PaymentExpired(order order.Order, payment payment.Payment) error {
+func (srv *OrderPaymentService) PaymentExpired(order *order.Order, payment *payment.Payment) error {
+	order.CancelOrder()
+	payment.CancelPayment()
 	return nil
 }
