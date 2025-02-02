@@ -5,22 +5,21 @@ import (
 	"fmt"
 
 	"github.com/victorlin12345/ddd-template/internal/domain/order"
-	"github.com/victorlin12345/ddd-template/internal/domain/payment"
 	"github.com/victorlin12345/ddd-template/internal/domain/service"
 	"github.com/victorlin12345/ddd-template/internal/repository"
 )
 
 type OrderProcess struct {
-	orderRepo       order.Repository
-	paymentRepo     payment.Repository
+	orderRepo       repository.OrderMongoRepo
+	paymentRepo     repository.PaymentMongoRepo
 	orderPaymentSvc service.OrderPaymentService
 }
 
-func NewOrderProcess() *OrderProcess {
+func NewOrderProcess(orderRepo repository.OrderMongoRepo, paymentRepo repository.PaymentMongoRepo, orderPaymentSvc service.OrderPaymentService) *OrderProcess {
 	return &OrderProcess{
-		orderRepo:       repository.NewOrderRepo(),
-		paymentRepo:     repository.NewPaymentRepo(),
-		orderPaymentSvc: service.OrderPaymentService{},
+		orderRepo:       orderRepo,
+		paymentRepo:     paymentRepo,
+		orderPaymentSvc: orderPaymentSvc,
 	}
 }
 
