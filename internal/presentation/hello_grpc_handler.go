@@ -27,6 +27,7 @@ func (c *HelloController) SayHello(context.Context, *hellopb.HelloRequest) (*hel
 	fmt.Println("Hello")
 
 	if err := c.orderManger.CreateOrder(); err != nil {
+		Wrap(ErrDatabase, "failed to save order", err)
 		return nil, err
 	}
 
