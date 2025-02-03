@@ -1,10 +1,10 @@
 # ddd-template
 
--[] api_test
--[x] error code 
--[] unit test 
--[] logger
--[] config
+- [ ] api_test
+- [x] error code 
+- [ ] unit test 
+- [ ] logger
+- [ ] config
 
 ## quick start
 ```
