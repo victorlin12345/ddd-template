@@ -8,6 +8,7 @@ import (
 	"github.com/victorlin12345/ddd-template/internal/domain/order"
 	db "github.com/victorlin12345/ddd-template/internal/infrastructure/mongo"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -16,8 +17,8 @@ type OrderMongoRepo struct {
 	collection *mongo.Collection
 }
 
-func NewOrderRepo() order.Repository {
-	client := db.GetMongoClient().Client
+func NewOrderMongoRepo(mc *db.MongoClient) order.Repository {
+	client := mc.Client
 	collection := client.Database("test").Collection("orders")
 	return &OrderMongoRepo{collection: collection}
 }
@@ -37,6 +38,15 @@ func (o *OrderMongoRepo) GetByID(ctx context.Context, id int64) (*order.Order, e
 		return nil, err
 	}
 	return &ord, nil
+}
+
+func (o *OrderMongoRepo) CreateOrder(ctx context.Context, order *order.Order) (*order.Order, error) {
+	res, err := o.collection.InsertOne(ctx, order)
+	if err != nil {
+		return nil, err
+	}
+	order.ID = res.InsertedID.(primitive.ObjectID)
+	return order, nil
 }
 
 // Save implements order.Repository.

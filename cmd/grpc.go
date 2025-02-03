@@ -34,7 +34,6 @@ to quickly create a Cobra application.`,
 				server *grpcserver.GrpcServer,
 				grpcRouter *presentation.GrpcRouter,
 				mongoClient *mongo.MongoClient,
-				orderProcess *application.OrderProcess,
 			) {
 				lc.Append(fx.Hook{OnStart: mongoClient.Start, OnStop: mongoClient.Stop})
 				lc.Append(fx.Hook{OnStart: server.Start, OnStop: server.Stop})

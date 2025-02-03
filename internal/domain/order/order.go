@@ -1,5 +1,7 @@
 package order
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type Status string
 
 const (
@@ -9,8 +11,8 @@ const (
 
 // Entity
 type Order struct {
-	ID     int64
-	Status Status
+	ID     primitive.ObjectID `bson:"_id,omitempty"`
+	Status Status             `bson:"status"`
 }
 
 func NewOrder() *Order {
